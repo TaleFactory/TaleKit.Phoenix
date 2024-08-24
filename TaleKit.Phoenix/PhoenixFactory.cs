@@ -18,7 +18,7 @@ public class PhoenixFactory
     public static Session CreateSession(PhoenixClient client)
     {
         var bridge = new PhoenixActionBridge(client);
-        var session = NKitFactory.CreateSession(new SessionConfiguration
+        var session = TaleKitFactory.CreateSession(new SessionConfiguration
         {
             Network = new PhoenixNetwork(client),
             ActionBridge = bridge
