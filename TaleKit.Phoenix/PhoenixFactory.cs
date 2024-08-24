@@ -17,14 +17,11 @@ public class PhoenixFactory
 {
     public static Session CreateSession(PhoenixClient client)
     {
-        var bridge = new PhoenixActionBridge(client);
         var session = TaleKitFactory.CreateSession(new SessionConfiguration
         {
             Network = new PhoenixNetwork(client),
-            ActionBridge = bridge
+            ActionBridge = new PhoenixActionBridge(client)
         });
-
-        bridge.Session = session;
 
         // Used for initialization, everything updated here will be updated by packet processors later
         client.MessageReceived += message =>
