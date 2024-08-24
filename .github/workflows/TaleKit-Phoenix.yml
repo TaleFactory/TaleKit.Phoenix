@@ -1,0 +1,66 @@
+name: TaleKit-Phoenix
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.editorconfig'
+  workflow_dispatch:
+
+env:
+  dotnet: 8.0.x
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: Configure .NET SDK ${{ env.dotnet }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.dotnet }}
+
+      - name: Version
+        id: versioning
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          release_branches: main
+          tag_prefix: ''
+          dry_run: true
+
+      - name: Source
+        run: |
+          dotnet nuget add source --username roxeez --password ${{ secrets.NUGET_PACKAGES }} \
+            --store-password-in-clear-text \
+            --name talefactory "https://nuget.pkg.github.com/talefactory/index.json"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore -c Release /p:Version=${{ steps.versioning.outputs.new_tag }}
+
+      - name: Pack
+        run: dotnet pack -c Release --no-build /p:Version=${{ steps.versioning.outputs.new_tag }}
+
+      - name: Push
+        run: |
+          dotnet nuget push **/*.nupkg \
+          --source https://nuget.pkg.github.com/talefactory/index.json \
+          --api-key ${{ secrets.NUGET_PACKAGES }} \
+          --skip-duplicate
+      
+      - name: Tag
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: ''
+          custom_tag: ${{ steps.versioning.outputs.new_tag }}
