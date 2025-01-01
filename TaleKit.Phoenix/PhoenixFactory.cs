@@ -109,6 +109,7 @@ public class PhoenixFactory
                     {
                         var player = new Player
                         {
+                            Id = playerInfo.Id,
                             Position = new Position(playerInfo.X, playerInfo.Y),
                             HpPercentage = playerInfo.HpPercent,
                             MpPercentage = playerInfo.MpPercent,
