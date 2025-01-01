@@ -73,7 +73,7 @@ public class PhoenixFactory
                 case QueryMapEntities entities:
                     foreach (var monsterInfo in entities.Monsters)
                     {
-                        var monster = MonsterFactory.CreateMonster((int) monsterInfo.Id, monsterInfo.Vnum);
+                        var monster = MonsterFactory.CreateMonster(monsterInfo.Id, monsterInfo.Vnum);
                         
                         monster.HpPercentage = monsterInfo.HpPercent;
                         monster.MpPercentage = monsterInfo.HpPercent;
@@ -85,7 +85,7 @@ public class PhoenixFactory
                     
                     foreach (var dropInfo in entities.Items)
                     {
-                        var drop = DropFactory.CreateDrop((int) dropInfo.Id, dropInfo.Vnum, dropInfo.Quantity);
+                        var drop = DropFactory.CreateDrop(dropInfo.Id, dropInfo.Vnum, dropInfo.Quantity);
 
                         drop.Map = session.Character.Map;
                         drop.Position = new Position(dropInfo.X, dropInfo.Y);
@@ -103,6 +103,20 @@ public class PhoenixFactory
                         npc.Map = session.Character.Map;
                         
                         session.Character.Map.AddEntity(npc);
+                    }
+                    
+                    foreach (var playerInfo in entities.Players)
+                    {
+                        var player = new Player
+                        {
+                            Position = new Position(playerInfo.X, playerInfo.Y),
+                            HpPercentage = playerInfo.HpPercent,
+                            MpPercentage = playerInfo.MpPercent,
+                            Name = playerInfo.Name,
+                            Map = session.Character.Map
+                        };
+                        
+                        session.Character.Map.AddEntity(player);
                     }
                     
                     break;

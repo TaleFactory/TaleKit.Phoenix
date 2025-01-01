@@ -5,33 +5,16 @@ using PhoenixWrapped;
 using PhoenixWrapped.Messaging.Combat;
 using PhoenixWrapped.Messaging.Interaction;
 using PhoenixWrapped.Messaging.Movement;
-using PartnerSkill = TaleKit.Game.Combat.PartnerSkill;
 
 namespace TaleKit.Phoenix;
 
-public class PhoenixActionBridge : IActionBridge
+public class PhoenixActionBridge(PhoenixClient client) : IActionBridge
 {
-    private readonly PhoenixClient client;
-
-    public PhoenixActionBridge(PhoenixClient client)
-    {
-        this.client = client;
-    }
-
     public Session? Session { get; set; }
-
-    public void Walk(Position position, int speed)
-    {
-        this.client.SendMessage(new PlayerWalk
-        {
-            X = position.X,
-            Y = position.Y
-        });
-    }
 
     public void Walk(Character character, Position position)
     {
-        this.client.SendMessage(new PlayerWalk
+        client.SendMessage(new PlayerWalk
         {
             X = position.X,
             Y = position.Y
@@ -40,7 +23,7 @@ public class PhoenixActionBridge : IActionBridge
 
     public void WalkNosmate(SummonedNosmate nosmate, Position position)
     {
-        this.client.SendMessage(new PetsWalk
+        client.SendMessage(new PetsWalk
         {
             X = position.X,
             Y = position.Y
@@ -49,7 +32,7 @@ public class PhoenixActionBridge : IActionBridge
 
     public void Attack(LivingEntity entity)
     {
-        this.client.SendMessage(new Attack
+        client.SendMessage(new Attack
         {
             MonsterId = entity.Id
         });
@@ -57,7 +40,7 @@ public class PhoenixActionBridge : IActionBridge
 
     public void Attack(LivingEntity entity, Skill skill)
     {
-        this.client.SendMessage(new PlayerSkill
+        client.SendMessage(new PlayerSkill
         {
             MonsterId = entity.Id,
             SkillId = skill.CastId
@@ -66,7 +49,7 @@ public class PhoenixActionBridge : IActionBridge
 
     public void PickUp(Drop drop)
     {
-        this.client.SendMessage(new PickUp
+        client.SendMessage(new PickUp
         {
             ItemId = drop.Id
         });
