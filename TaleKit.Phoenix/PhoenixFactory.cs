@@ -29,7 +29,7 @@ public class PhoenixFactory
             switch (message)
             {
                 case QueryInventory inv:
-                    session.Character.Inventory.Gold = inv.Gold;
+                    session.Character.Inventory.Gold = inv.Inventory.Gold;
                     foreach (var equip in inv.Inventory.Equip)
                     {
                         var stack = ItemFactory.CreateItemStack(equip.Vnum, equip.Quantity,  0, equip.Slot, InventoryType.Equipment);

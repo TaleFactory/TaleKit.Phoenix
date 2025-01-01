@@ -29,6 +29,24 @@ public class PhoenixActionBridge : IActionBridge
         });
     }
 
+    public void Walk(Character character, Position position)
+    {
+        this.client.SendMessage(new PlayerWalk
+        {
+            X = position.X,
+            Y = position.Y
+        });
+    }
+
+    public void WalkNosmate(SummonedNosmate nosmate, Position position)
+    {
+        this.client.SendMessage(new PetsWalk
+        {
+            X = position.X,
+            Y = position.Y
+        });
+    }
+
     public void Attack(LivingEntity entity)
     {
         this.client.SendMessage(new Attack
