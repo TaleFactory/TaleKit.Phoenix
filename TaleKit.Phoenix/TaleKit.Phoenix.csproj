@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="PhoenixWrapped" Version="1.0.10" />
+      <PackageReference Include="PhoenixWrapped" Version="1.0.11" />
       <PackageReference Include="TaleKit" Version="0.2.8" />
     </ItemGroup>
 
