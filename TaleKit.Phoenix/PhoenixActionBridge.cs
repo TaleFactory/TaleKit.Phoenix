@@ -10,8 +10,6 @@ namespace TaleKit.Phoenix;
 
 public class PhoenixActionBridge(PhoenixClient client) : IActionBridge
 {
-    public Session? Session { get; set; }
-
     public void Walk(Character character, Position position)
     {
         client.SendMessage(new PlayerWalk
@@ -47,7 +45,7 @@ public class PhoenixActionBridge(PhoenixClient client) : IActionBridge
         });
     }
 
-    public void PickUp(Drop drop)
+    public void PickUp(Character character, Drop drop)
     {
         client.SendMessage(new PickUp
         {
