@@ -8,20 +8,11 @@ using PhoenixWrapped.Messaging.Movement;
 
 namespace TaleKit.Phoenix;
 
-public class PhoenixActionBridge(PhoenixClient client) : IActionBridge
+public class PhoenixExecutor(PhoenixClient client) : IExecutor
 {
     public void Walk(Character character, Position position)
     {
         client.SendMessage(new PlayerWalk
-        {
-            X = position.X,
-            Y = position.Y
-        });
-    }
-
-    public void WalkNosmate(SummonedNosmate nosmate, Position position)
-    {
-        client.SendMessage(new PetsWalk
         {
             X = position.X,
             Y = position.Y

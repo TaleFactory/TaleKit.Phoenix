@@ -16,7 +16,7 @@ public class PhoenixFactory
         var session = TaleKitFactory.CreateSession(new SessionConfiguration
         {
             Network = new PhoenixNetwork(client),
-            ActionBridge = new PhoenixActionBridge(client)
+            Executor = new PhoenixExecutor(client)
         });
 
         // Used for initialization, everything updated here will be updated by packet processors later
